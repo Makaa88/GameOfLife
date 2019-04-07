@@ -29,25 +29,23 @@ void CheckIfButtonPressed(std::vector<Buttons::Button*>& buttons, sf::Event& eve
 
 std::string ChosePreset()
 {
-	sf::RenderWindow chose_window(sf::VideoMode(620, 420), "GameOfLife", sf::Style::Titlebar | sf::Style::Close);
+	sf::RenderWindow chose_window(sf::VideoMode(1000, 800), "GameOfLife", sf::Style::Titlebar | sf::Style::Close);
 	sf::Event event;
 	chose_window.clear(sf::Color::Black);
 	sf::Font font;
 	font.loadFromFile("Welbut__.ttf");
-	sf::Text glider;
-	sf::Text queen;
-	glider.setFillColor(sf::Color::White);
-	glider.setCharacterSize(25);
-	glider.setFont(font);
-	glider.setString("1. Glider");
-	glider.setPosition(250, 220);
 
-	queen.setFillColor(sf::Color::White);
-	queen.setCharacterSize(25);
-	queen.setString("2. Queen");
-	queen.setFont(font);
-	queen.setPosition(250, 250);
+	std::vector<RLEFileText> texts = { RLEFileText{"Glider", font},
+									RLEFileText{"Queen Bee Shattle",font},
+									RLEFileText{ "Blinker",font },RLEFileText{ "Boss",font } };
 
+	const int x = 450;
+	int y = 200;
+	for (auto& text : texts)
+	{
+		text.SetPosition(x, y);
+		y += 30;
+	}
 
 	while (chose_window.isOpen())
 	{
@@ -57,17 +55,29 @@ std::string ChosePreset()
 			if (event.key.code == sf::Keyboard::Num1)
 			{
 				chose_window.close();
-				return "RLE/glider.rle";
+				return texts.at(0).GetPath();
 			}
 			else if (event.key.code == sf::Keyboard::Num2)
 			{
 				chose_window.close();
-				return "RLE/Queen.rle";
+				return texts.at(1).GetPath();
+			}
+			else if (event.key.code == sf::Keyboard::Num3)
+			{
+				chose_window.close();
+				return texts.at(2).GetPath();
+			}
+			else if (event.key.code == sf::Keyboard::Num4)
+			{
+				chose_window.close();
+				return texts.at(3).GetPath();
 			}
 		}
 
-		chose_window.draw(glider);
-		chose_window.draw(queen);
+		for (auto& text : texts)
+		{
+			chose_window.draw(text.GetText());
+		}
 		chose_window.display();
 
 	}

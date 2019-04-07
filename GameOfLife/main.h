@@ -6,3 +6,4 @@
 #include "BackwardButton.h"
 #include "FileReader.h"
 #include "Game.h"
+#include "RLEFileText.h"

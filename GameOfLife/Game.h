@@ -8,7 +8,6 @@ class Game
 {
 public:
 	Game(int board_width, int board_height, std::string preset);
-	void PlayGame();
 	void DrawBoard(sf::RenderWindow &window);
 	void ProccedNextIteration();
 	void Forward();

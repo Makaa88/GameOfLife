@@ -20,15 +20,6 @@ Game::Game(int board_width, int board_height, std::string preset)
 	std::cout << _start_x_position << std::endl;
 }
 
-void Game::PlayGame()
-{
-	/*for (int run = 0; run < number_of_runs_; run++)
-	{
-		board_.ProccedNextInteration();
-		board_.PrintBoard();
-	}*/
-}
-
 void Game::DrawBoard(sf::RenderWindow & window)
 {
 	auto board = _board.at(_position).GetBoard();
@@ -64,9 +55,10 @@ void Game::ProccedNextIteration()
 
 void Game::Forward()
 {
-	if (_position >= (_board.size()))
+	if (_position >= (_board.size() - 1))
 		ProccedNextIteration();
-	_position++;
+	else
+		_position++;
 }
 
 void Game::Backward()
