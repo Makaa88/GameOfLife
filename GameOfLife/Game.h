@@ -22,5 +22,6 @@ private:
 	std::string _preset;
 	int _rectangle_size;
 	int _offset = 10;
+	int _start_x_position;
 
 };
