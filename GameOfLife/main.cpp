@@ -27,17 +27,19 @@ void CheckIfButtonPressed(std::vector<Buttons::Button*>& buttons, sf::Event& eve
 
 }
 
-std::string ChosePreset()
+std::string ChosePreset(sf::Font &font)
 {
 	sf::RenderWindow chose_window(sf::VideoMode(1000, 800), "GameOfLife", sf::Style::Titlebar | sf::Style::Close);
 	sf::Event event;
 	chose_window.clear(sf::Color::Black);
-	sf::Font font;
-	font.loadFromFile("Welbut__.ttf");
 
-	std::vector<RLEFileText> texts = { RLEFileText{"Glider", font},
-									RLEFileText{"Queen Bee Shattle",font},
-									RLEFileText{ "Blinker",font },RLEFileText{ "Boss",font } };
+
+	std::vector<RLEFileText> texts = { /*0*/ RLEFileText{"My Saved Pattern", font},
+								/*1*/	RLEFileText{"Glider", font},
+								/*2*/	RLEFileText{"Queen Bee Shattle",font},
+								/*3*/	RLEFileText{ "Blinker",font },
+								/*4*/	RLEFileText{ "Boss",font },
+								/*5*/	RLEFileText{"Gosper Glider Gun", font} };
 
 	const int x = 450;
 	int y = 200;
@@ -52,25 +54,35 @@ std::string ChosePreset()
 		chose_window.clear(sf::Color::Black);
 		if (chose_window.pollEvent(event))
 		{
-			if (event.key.code == sf::Keyboard::Num1)
+			if (event.key.code == sf::Keyboard::Num0)
 			{
 				chose_window.close();
 				return texts.at(0).GetPath();
 			}
-			else if (event.key.code == sf::Keyboard::Num2)
+			if (event.key.code == sf::Keyboard::Num1)
 			{
 				chose_window.close();
 				return texts.at(1).GetPath();
 			}
-			else if (event.key.code == sf::Keyboard::Num3)
+			else if (event.key.code == sf::Keyboard::Num2)
 			{
 				chose_window.close();
 				return texts.at(2).GetPath();
 			}
-			else if (event.key.code == sf::Keyboard::Num4)
+			else if (event.key.code == sf::Keyboard::Num3)
 			{
 				chose_window.close();
 				return texts.at(3).GetPath();
+			}
+			else if (event.key.code == sf::Keyboard::Num4)
+			{
+				chose_window.close();
+				return texts.at(4).GetPath();
+			}
+			else if (event.key.code == sf::Keyboard::Num5)
+			{
+				chose_window.close();
+				return texts.at(5).GetPath();
 			}
 		}
 
@@ -88,7 +100,9 @@ std::string ChosePreset()
 
 int main()
 {
-	std::string path = ChosePreset();
+	sf::Font font;
+	font.loadFromFile("Welbut__.ttf");
+	std::string path = ChosePreset(font);
 	sf::RenderWindow window(sf::VideoMode(1000, 800), "GameOfLife", sf::Style::Titlebar | sf::Style::Close);
 	window.clear(sf::Color::Black);
 	sf::Event event;
@@ -100,14 +114,17 @@ int main()
 	Buttons::StopButton stop_button{};
 	Buttons::ForwardButton forward_button{};
 	Buttons::BackwardButton backward_button{};
-	std::vector<Buttons::Button*> buttons = { &play_button, &stop_button, &forward_button, &backward_button };
+	Buttons::SaveButton save_button{ font };
+	std::vector<Buttons::Button*> buttons = { &play_button, &stop_button, &forward_button, &backward_button, &save_button };
 
 	sf::Clock clock;
+	sf::Clock fps_clock;
 	sf::Time start_time = clock.getElapsedTime();
 	sf::Time end_time = start_time;
 
+	sf::Time fps_time = start_time;
 
-
+	int fps_counter = 0;
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::Black);
@@ -121,6 +138,12 @@ int main()
 			if ((event.type == sf::Event::MouseButtonPressed) && (event.mouseButton.button == sf::Mouse::Left))
 			{
 				CheckIfButtonPressed(buttons, event);
+				if ((event.mouseButton.x >= 600) && (event.mouseButton.x <= 720) && (event.mouseButton.y >= 50)
+					&& (event.mouseButton.y <= 100) && !play_button.IsButtonPressed())
+				{
+					save_button.PressButton();
+					game.SavePattern();
+				}
 			}
 		}
 		
@@ -141,15 +164,20 @@ int main()
 			backward_button.Disable();
 		}
 
-	///	window.draw(circle);
-		//window.display();
 		for (auto button : buttons)
 		{
 			button->DrawShape(window);
 		}
 		game.DrawBoard(window);
+		/*if (fps_clock.getElapsedTime().asSeconds() - fps_time.asSeconds() > 1)
+		{
+			std::cout << "FPS: " << fps_counter << std::endl;
+			fps_time = fps_clock.getElapsedTime();
+			fps_counter = 0;
+		}*/
+		
 		window.display();
-
+		//fps_counter++;
 		end_time = clock.getElapsedTime();
 	}
 

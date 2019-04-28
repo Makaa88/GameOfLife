@@ -2,6 +2,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "Board.h"
+#include "FPSManagement.h"
 
 
 class Game
@@ -12,6 +13,7 @@ public:
 	void ProccedNextIteration();
 	void Forward();
 	void Backward();
+	void SavePattern();
 
 private:
 	std::vector<Board> _board;
@@ -22,5 +24,7 @@ private:
 	int _rectangle_size;
 	int _offset = 10;
 	int _start_x_position;
+
+	FPSManagement _fps;
 
 };

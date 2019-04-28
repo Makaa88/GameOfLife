@@ -112,6 +112,7 @@ int Board::CountNeighbours(int column, int row) const
 				continue;
 			if ((j == -1))
 			{
+				continue;
 				if (_board[i][_board_height - 1].GetCell())
 				{
 					ammout_of_neighbours++;
@@ -119,6 +120,7 @@ int Board::CountNeighbours(int column, int row) const
 			}
 			else if (j == (_board_height))
 			{
+				continue;
 				if (_board[i][0].GetCell())
 					ammout_of_neighbours++;
 			}

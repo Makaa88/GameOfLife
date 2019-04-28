@@ -4,6 +4,7 @@
 #include "StopButton.h"
 #include "ForwardButton.h"
 #include "BackwardButton.h"
+#include "SaveButton.h"
 #include "FileReader.h"
 #include "Game.h"
 #include "RLEFileText.h"

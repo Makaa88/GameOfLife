@@ -48,7 +48,7 @@ namespace Buttons
 	void ForwardButton::PressButton()
 	{
 		_is_button_pressed = true;
-		SetColor(sf::Color::Red);
+		SetColor(sf::Color::Blue);
 	}
 
 	void ForwardButton::ReleaseButton()

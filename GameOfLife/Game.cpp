@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <iostream>
+#include <fstream>
 
 Game::Game(int board_width, int board_height, std::string preset)
 	:_width(board_width),
@@ -65,4 +66,54 @@ void Game::Backward()
 {
 	if (_position > 0)
 		_position--;
+}
+
+
+void Game::SavePattern()
+{
+	std::fstream file;
+	file.open("RLE/My Saved Pattern.rle", std::ios::out);
+	auto board = _board.at(_position).GetBoard();
+	file << "x = " << _width << ",y = " << _height << ", rule = b3/s23" << std::endl;
+
+	int number_of_cells = 0;
+	bool previous_state = false;
+	char sign = 'b';
+
+	for (int j = 0; j < _height; j++)
+	{
+		number_of_cells = 1;
+		previous_state = board.at(0).at(j).GetCell();
+		for (int i = 1; i < _width; i++)
+		{
+			if (board[i][j].GetCell() == previous_state)
+				number_of_cells++;
+			else
+			{
+				if (previous_state) 
+					sign = 'o';
+				else sign = 'b';
+
+				if( number_of_cells != 1)
+					file << number_of_cells << sign;
+				else file << sign;
+
+				previous_state = !previous_state;
+				number_of_cells = 1;
+			}
+		}
+
+		if (previous_state)
+			sign = 'o';
+		else sign = 'b';
+
+		if (number_of_cells != 1)
+			file << number_of_cells << sign;
+		else file << sign;
+
+		if(j != (_height-1))
+			file << '$';
+	}
+	
+	file << "!";
 }
