@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
-#include "PlayButton.h"
-#include "StopButton.h"
-#include "ForwardButton.h"
-#include "BackwardButton.h"
-#include "SaveButton.h"
+#include "Buttons/PlayButton.h"
+#include "Buttons/StopButton.h"
+#include "Buttons/ForwardButton.h"
+#include "Buttons/BackwardButton.h"
+#include "Buttons/SaveButton.h"
 #include "FileReader.h"
-#include "Game.h"
+#include "GameManagement/Game.h"
 #include "RLEFileText.h"
