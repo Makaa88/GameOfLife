@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <string>
 #include <cstdlib>
+#include <thread>
 
 namespace
 {
@@ -78,14 +79,33 @@ void Board::ApplyPreset(std::string preset)
 	}
 }
 
+void Board::Generate(std::vector<std::vector<Cell>> &board, int i, int j)
+{
+	std::cout << "THREAD: " << i << std::endl;
+	int ammout_of_neighbours;
+	bool dead_or_alive;
+	for (int column = 0; column < _board_width; column++)
+	{
+		for (int row = i; row < j; row++)
+		{
+			ammout_of_neighbours = CountNeighbours(column, row);
+			dead_or_alive = DecideIfCellAlive(ammout_of_neighbours, column, row);
+			board[column][row].SetCell(dead_or_alive);
+		}
+	}
+}
 
 Board Board::ProccedNextInteration()
 {
 
 	std::vector<std::vector<Cell>> temp_board;
 	PrepareVector(temp_board, _board_width, _board_height);
-	int ammout_of_neighbours;
-	bool dead_or_alive;
+	std::thread first_thread(&Board::Board::Generate,this, std::ref(temp_board), 0, _board_height / 3);
+	std::thread second_thread(&Board::Board::Generate, this, std::ref(temp_board), _board_height / 3, (2*_board_height) / 3);
+	std::thread third_thread(&Board::Board::Generate, this, std::ref(temp_board), (2*_board_height) / 3, _board_height);
+
+	//int ammout_of_neighbours;
+	/*bool dead_or_alive;
 	for (int column = 0; column < _board_width; column++)
 	{
 		for (int row = 0; row < _board_height; row++)
@@ -94,7 +114,10 @@ Board Board::ProccedNextInteration()
 			dead_or_alive = DecideIfCellAlive(ammout_of_neighbours, column, row);
 			temp_board[column][row].SetCell(dead_or_alive);
 		}
-	}
+	}*/
+	first_thread.join();
+	second_thread.join();
+	third_thread.join();
 	
 	return Board(_board_width, _board_height, temp_board);
 }

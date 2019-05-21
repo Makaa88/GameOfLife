@@ -2,7 +2,6 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "Board.h"
-#include "FPSManagement.h"
 
 
 class Game
@@ -24,7 +23,5 @@ private:
 	int _rectangle_size;
 	int _offset = 10;
 	int _start_x_position;
-
-	FPSManagement _fps;
 
 };

@@ -6,6 +6,8 @@
 class Board
 {
 public:
+
+
 	Board(int width, int height, std::string preset);
 	Board(const int width,const int height, const std::vector<std::vector<Cell>>& board);
 	Board(const Board& board);
@@ -15,6 +17,7 @@ public:
 	int CountNeighbours(int column, int row) const;
 	bool DecideIfCellAlive(int ammount_of_neighbours, int column, int row) const;
 	std::vector<std::vector<Cell>>& GetBoard();
+	void Generate(std::vector<std::vector<Cell>> &board, int i, int j);
 
 private:
 

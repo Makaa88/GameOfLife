@@ -124,6 +124,15 @@ int main()
 
 	sf::Time fps_time = start_time;
 
+	sf::Text fps_text;
+	fps_text.setCharacterSize(12);
+	fps_text.setFont(font);
+	fps_text.setFillColor(sf::Color::White);
+	fps_text.setPosition(20, 30);
+
+
+	window.setFramerateLimit(60);
+
 	int fps_counter = 0;
 	while (window.isOpen())
 	{
@@ -131,6 +140,10 @@ int main()
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed) window.close();
+			if (event.type == sf::Event::TextEntered)
+			{
+				std::cout << "Text entered: " <<static_cast<char>(event.text.unicode) << std::endl;
+			}
 			if (event.type == sf::Event::MouseMoved)
 			{
 				std::cout << event.mouseMove.x << " " << event.mouseMove.y << std::endl;
@@ -169,15 +182,16 @@ int main()
 			button->DrawShape(window);
 		}
 		game.DrawBoard(window);
-		/*if (fps_clock.getElapsedTime().asSeconds() - fps_time.asSeconds() > 1)
+		if (fps_clock.getElapsedTime().asSeconds() - fps_time.asSeconds() > 1)
 		{
-			std::cout << "FPS: " << fps_counter << std::endl;
-			fps_time = fps_clock.getElapsedTime();
+			fps_text.setString(std::to_string(fps_counter));
 			fps_counter = 0;
-		}*/
+			fps_time = fps_clock.getElapsedTime();
+		}
 		
+		window.draw(fps_text);
 		window.display();
-		//fps_counter++;
+		fps_counter++;
 		end_time = clock.getElapsedTime();
 	}
 
