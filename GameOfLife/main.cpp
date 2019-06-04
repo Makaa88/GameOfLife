@@ -1,7 +1,8 @@
 #include <SFML/Window.hpp>
 #include "main.h"
 
-constexpr float DURATION = 15. / 60;
+// B5 606
+constexpr float DURATION = 15. / 60; //constexpr
 
 void CheckIfButtonPressed(std::vector<Buttons::Button*>& buttons, sf::Event& event)
 {
@@ -43,7 +44,7 @@ std::string ChosePreset(sf::Font &font)
 
 	const int x = 450;
 	int y = 200;
-	for (auto& text : texts)
+	for (auto& text : texts) //for range loop, auto keyword
 	{
 		text.SetPosition(x, y);
 		y += 30;
@@ -86,7 +87,7 @@ std::string ChosePreset(sf::Font &font)
 			}
 		}
 
-		for (auto& text : texts)
+		for (auto& text : texts)  //for range loop, auto keyword
 		{
 			chose_window.draw(text.GetText());
 		}
@@ -110,7 +111,7 @@ int main()
 	FileManagement::FileReader file{ path };
 	Game game(file.GetWidth(), file.GetHeight(), file.GetPreset());
 
-	Buttons::PlayButton play_button{};
+	Buttons::PlayButton play_button{}; //initialization list
 	Buttons::StopButton stop_button{};
 	Buttons::ForwardButton forward_button{};
 	Buttons::BackwardButton backward_button{};
@@ -177,7 +178,7 @@ int main()
 			backward_button.Disable();
 		}
 
-		for (auto button : buttons)
+		for (auto button : buttons) //range for loop, auto keyword
 		{
 			button->DrawShape(window);
 		}

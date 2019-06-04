@@ -100,8 +100,8 @@ Board Board::ProccedNextInteration()
 
 	std::vector<std::vector<Cell>> temp_board;
 	PrepareVector(temp_board, _board_width, _board_height);
-	std::thread first_thread(&Board::Board::Generate,this, std::ref(temp_board), 0, _board_height / 3);
-	std::thread second_thread(&Board::Board::Generate, this, std::ref(temp_board), _board_height / 3, (2*_board_height) / 3);
+	std::thread first_thread(&Board::Board::Generate,this, std::ref(temp_board), 0, _board_height / 3); //Threads
+	std::thread second_thread(&Board::Board::Generate, this , std::ref(temp_board), _board_height / 3, (2*_board_height) / 3);
 	std::thread third_thread(&Board::Board::Generate, this, std::ref(temp_board), (2*_board_height) / 3, _board_height);
 
 	//int ammout_of_neighbours;
