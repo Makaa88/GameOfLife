@@ -1,6 +1,2 @@
 GameOfLife.sln
 .vs/
-/GameOfLife/x64/Debug
-/GameOfLife/Debug/GameOfLife.tlog
-/GameOfLife/Debug
-/x64/Debug/RLE
